@@ -21,6 +21,10 @@ var detectNetwork = function(cardNumber) {
     return 'MasterCard';
   } else if (isVisa(cardNumber)){
     return 'Visa';
+  } else if (isDiscover(cardNumber)) {
+    return 'Discover';
+  } else if (isMaestro(cardNumber)) {
+    return 'Maestro';
   }
 
   return 'Invalid Number';
@@ -47,6 +51,16 @@ var isVisa = function(cardNumber) {
 
 var isAmericanExpress = function(cardNumber) {
   return cardNumber.length === 15 && (getPrefix(cardNumber, 2) === 34 || getPrefix(cardNumber, 2) === 37)
+    ? true : false;
+}
+
+var isDiscover = function(cardNumber) {
+  return (cardNumber.length === 16 || cardNumber.length === 19) && (getPrefix(cardNumber,4) === 6011 || (getPrefix(cardNumber,3) >= 644 && getPrefix(cardNumber,3) <= 649) || getPrefix(cardNumber,2) === 65)
+    ? true : false;
+}
+
+var isMaestro = function(cardNumber) {
+  return cardNumber.length >= 12 && cardNumber.length <= 19 && (getPrefix(cardNumber, 4) === 5018 || getPrefix(cardNumber, 4) === 5020 || getPrefix(cardNumber, 4) === 5038 || getPrefix(cardNumber, 4) === 6304)
     ? true : false;
 }
 
