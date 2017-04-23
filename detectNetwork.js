@@ -13,16 +13,17 @@ var detectNetwork = function(cardNumber) {
   // The American Express network always starts with a 34 or 37 and is 15 digits long
 
   // Once you've read this, go ahead and try to implement this function, then return to the console.
-  if (cardNumber.length === 14 && getPrefix(cardNumber) === 38 || getPrefix(cardNumber) === 39) {
+  if (cardNumber.length === 14 && getPrefix(cardNumber, 2) === 38 || getPrefix(cardNumber, 2) === 39) {
     return 'Diner\'s Club';
-  } else if (cardNumber.length === 15 && getPrefix(cardNumber) === 34 || getPrefix(cardNumber) === 37) {
+  } else if (cardNumber.length === 15 && getPrefix(cardNumber, 2) === 34 || getPrefix(cardNumber, 2) === 37) {
     return 'American Express';
   }
+
   return 'Invalid Number';
 };
 
-var getPrefix = function(cardNumber) {
-  return Number(cardNumber.split('').slice(0,2).join(''));
+var getPrefix = function(cardNumber, digits) {
+  return Number(cardNumber.split('').slice(0,digits).join(''));
 };
 
 function assertEquals(actual, expected, testName) {
@@ -34,7 +35,7 @@ function assertEquals(actual, expected, testName) {
 }
 
 function testDetectNetwork() {
-  assertEquals(getPrefix('12345678901234'), 12, 'should return cc prefix');
+  assertEquals(getPrefix('12345678901234',2), 12, 'should return cc prefix');
   assertEquals(detectNetwork('38345678901234'),'Diner\'s Club', 'should detect Diner\'s Club');
   assertEquals(detectNetwork('39345678901234'),'Diner\'s Club', 'should detect Diner\'s Club');
   assertEquals(detectNetwork('343456789012345'),'American Express', 'should detect American Express');
