@@ -13,13 +13,13 @@ var detectNetwork = function(cardNumber) {
   // The American Express network always starts with a 34 or 37 and is 15 digits long
 
   // Once you've read this, go ahead and try to implement this function, then return to the console.
-  if (cardNumber.length === 14 && (getPrefix(cardNumber, 2) === 38 || getPrefix(cardNumber, 2) === 39)) {
+  if (isDinersClub(cardNumber)) {
     return 'Diner\'s Club';
-  } else if (cardNumber.length === 15 && (getPrefix(cardNumber, 2) === 34 || getPrefix(cardNumber, 2) === 37)) {
+  } else if (isAmericanExpress(cardNumber)) {
     return 'American Express';
-  } else if (cardNumber.length === 16 && getPrefix(cardNumber, 2) >= 51 && getPrefix(cardNumber, 2) <= 55) {
+  } else if (isMasterCard(cardNumber)) {
     return 'MasterCard';
-  } else if (getPrefix(cardNumber, 1) === 4 && (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19)){
+  } else if (isVisa(cardNumber)){
     return 'Visa';
   }
 
@@ -29,6 +29,26 @@ var detectNetwork = function(cardNumber) {
 var getPrefix = function(cardNumber, digits) {
   return Number(cardNumber.split('').slice(0,digits).join(''));
 };
+
+var isDinersClub = function(cardNumber) {
+  return (cardNumber.length === 14 && (getPrefix(cardNumber, 2) === 38 || getPrefix(cardNumber, 2) === 39))
+    ? true : false;
+}
+
+var isMasterCard = function(cardNumber) {
+  return (cardNumber.length === 16 && getPrefix(cardNumber, 2) >= 51 && getPrefix(cardNumber, 2) <= 55)
+    ? true : false;
+}
+
+var isVisa = function(cardNumber) {
+  return (getPrefix(cardNumber, 1) === 4 && (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19))
+    ? true : false;
+}
+
+var isAmericanExpress = function(cardNumber) {
+  return cardNumber.length === 15 && (getPrefix(cardNumber, 2) === 34 || getPrefix(cardNumber, 2) === 37)
+    ? true : false;
+}
 
 function assertEquals(actual, expected, testName) {
   if(actual === expected) {
