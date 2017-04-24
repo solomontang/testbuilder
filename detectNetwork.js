@@ -19,6 +19,8 @@ var detectNetwork = function(cardNumber) {
     return 'American Express';
   } else if (isMasterCard(cardNumber)) {
     return 'MasterCard';
+  } else if (isSwitch(cardNumber)) {
+    return 'Switch';
   } else if (isVisa(cardNumber)){
     return 'Visa';
   } else if (isDiscover(cardNumber)) {
@@ -82,6 +84,19 @@ var isChinaUnionPay = function(cardNumber) {
     && (getPrefix(cardNumber, 6) >= 622126 && getPrefix(cardNumber, 6) <= 622925)
       || (getPrefix(cardNumber, 3) >= 624 && getPrefix(cardNumber, 3) <= 626)
       || (getPrefix(cardNumber, 4) >= 6282 && getPrefix(cardNumber, 4) <= 6288)
+        ? true : false;
+}
+
+var isSwitch = function (cardNumber) {
+  return (cardNumber.length === 16 || cardNumber.length === 18 || cardNumber.length === 19)
+    && (getPrefix(cardNumber, 4) === 4903
+      || getPrefix(cardNumber, 4) === 4905
+      || getPrefix(cardNumber, 4) === 4911
+      || getPrefix(cardNumber, 4) === 4936
+      || getPrefix(cardNumber, 6) === 564182
+      || getPrefix(cardNumber, 6) === 633110
+      || getPrefix(cardNumber, 4) === 6333
+      || getPrefix(cardNumber, 4) === 6759)
         ? true : false;
 }
 

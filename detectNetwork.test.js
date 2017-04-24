@@ -193,40 +193,66 @@ describe('Maestro', function() {
   }
 });
 
-describe('China UnionPay', function() {
-  var should = chai.should();
-
-  for (var length = 16; length <= 19; length++) {
+var checkDetectNetwork = function(prefixMin, prefixMax, digitsMin, digitsMax, creditName) {
+  for (var length = digitsMin; length <= digitsMax; length++) {
     (function(length) {
-      for (var prefix = 622126; prefix <= 622925; prefix++) {
+      for (var prefix = prefixMin; prefix <= prefixMax; prefix++) {
         (function (prefix) {
           it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
-            detectNetwork(padString(prefix.toString(), length)).should.equal('China Union Pay');
+            detectNetwork(padString(prefix.toString(), length)).should.equal(creditName);
           });
         })(prefix);
       }
-
-      for (var prefix = 624; prefix <= 626; prefix++) {
-        (function (prefix) {
-          it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
-            detectNetwork(padString(prefix.toString(), length)).should.equal('China Union Pay');
-          });
-        })(prefix);
-      }
-
-      for (var prefix = 6282; prefix <= 6288; prefix++) {
-        (function (prefix) {
-          it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
-            detectNetwork(padString(prefix.toString(), length)).should.equal('China Union Pay');
-          });
-        })(prefix);
-      }
-
-
-    }) (length);
+    })(length);
   }
+}
+
+describe('China Union Pay', function() {
+  var should = chai.should();
+  checkDetectNetwork(622126, 622925, 16, 19, 'China Union Pay');
+  checkDetectNetwork(624,626,16,19,'China Union Pay');
+  checkDetectNetwork(6282, 6288, 16, 19, 'China Union Pay');
 
 });
 describe('Switch', function() {
+  var should = chai.should();
+
+  checkDetectNetwork(4903,4903,16,16,'Switch');
+  checkDetectNetwork(4903,4903,18,19,'Switch');
+
+  checkDetectNetwork(4905,4905,16,16,'Switch');
+  checkDetectNetwork(4905,4905,18,19,'Switch');
+
+  checkDetectNetwork(4911,4911,16,16,'Switch');
+  checkDetectNetwork(4911,4911,18,19,'Switch');
+
+  checkDetectNetwork(4936,4936,16,16,'Switch');
+  checkDetectNetwork(4936,4936,18,19,'Switch');
+
+  checkDetectNetwork(564182,564182,16,16,'Switch');
+  checkDetectNetwork(564182,564182,18,19,'Switch');
+
+  checkDetectNetwork(633110,633110,16,16,'Switch');
+  checkDetectNetwork(633110,633110,18,19,'Switch');
+
+  checkDetectNetwork(6333,6333,16,16,'Switch');
+  checkDetectNetwork(6333,6333,18,19,'Switch');
+
+  checkDetectNetwork(6759, 6759,16,16,'Switch');
+  checkDetectNetwork(6759,6759,18,19,'Switch');
 
 });
+
+var checkDetectNetwork = function(prefixMin, prefixMax, digitsMin, digitsMax, creditName) {
+  for (var length = digitsMin; length <= digitsMax; length++) {
+    (function(length) {
+      for (var prefix = prefixMin; prefix <= prefixMax; prefix++) {
+        (function (prefix) {
+          it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
+            detectNetwork(padString(prefix.toString(), length)).should.equal(creditName);
+          });
+        })(prefix);
+      }
+    })(length);
+  }
+}
