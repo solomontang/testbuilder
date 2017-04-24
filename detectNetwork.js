@@ -28,7 +28,7 @@ var detectNetwork = function(cardNumber) {
   } else if (isMaestro(cardNumber)) {
     return 'Maestro';
   } else if (isChinaUnionPay(cardNumber)) {
-    return 'China Union Pay';
+    return 'China UnionPay';
   }
 
   return 'Invalid Number';

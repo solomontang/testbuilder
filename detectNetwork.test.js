@@ -210,11 +210,11 @@ var checkDetectNetwork = function(prefixMin, prefixMax, digitsMin, digitsMax, cr
   }
 }
 
-describe('China Union Pay', function() {
+describe('China UnionPay', function() {
   var should = chai.should();
-  checkDetectNetwork(622126, 622925, 16, 19, 'China Union Pay');
-  checkDetectNetwork(624,626,16,19,'China Union Pay');
-  checkDetectNetwork(6282, 6288, 16, 19, 'China Union Pay');
+  checkDetectNetwork(622126, 622925, 16, 19, 'China UnionPay');
+  checkDetectNetwork(624,626,16,19,'China UnionPay');
+  checkDetectNetwork(6282, 6288, 16, 19, 'China UnionPay');
 
 });
 describe('Switch', function() {
