@@ -196,6 +196,35 @@ describe('Maestro', function() {
 describe('China UnionPay', function() {
   var should = chai.should();
 
+  for (var length = 16; length <= 19; length++) {
+    (function(length) {
+      for (var prefix = 622126; prefix <= 622925; prefix++) {
+        (function (prefix) {
+          it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
+            detectNetwork(padString(prefix.toString(), length)).should.equal('China Union Pay');
+          });
+        })(prefix);
+      }
+
+      for (var prefix = 624; prefix <= 626; prefix++) {
+        (function (prefix) {
+          it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
+            detectNetwork(padString(prefix.toString(), length)).should.equal('China Union Pay');
+          });
+        })(prefix);
+      }
+
+      for (var prefix = 6282; prefix <= 6288; prefix++) {
+        (function (prefix) {
+          it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
+            detectNetwork(padString(prefix.toString(), length)).should.equal('China Union Pay');
+          });
+        })(prefix);
+      }
+
+
+    }) (length);
+  }
 
 });
 describe('Switch', function() {
