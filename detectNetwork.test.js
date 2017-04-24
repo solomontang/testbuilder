@@ -9,12 +9,15 @@
 var FILL_ME_IN = 'Fill this value in';
 
 function padString(string, totalLength) {
+  return string = "number" == typeof string ? string.toString() : string, string + new Array(totalLength + 1 - string.length).join('0');
+  /*
   var initLength = string.length;
   var padded = string;
   for (var i = initLength; i < totalLength; i++) {
     padded = padded.concat((0).toString());
   }
   return padded;
+  */
 }
 
 describe('Introduction to Mocha Tests - READ ME FIRST', function() {
@@ -242,17 +245,3 @@ describe('Switch', function() {
   checkDetectNetwork(6759,6759,18,19,'Switch');
 
 });
-
-var checkDetectNetwork = function(prefixMin, prefixMax, digitsMin, digitsMax, creditName) {
-  for (var length = digitsMin; length <= digitsMax; length++) {
-    (function(length) {
-      for (var prefix = prefixMin; prefix <= prefixMax; prefix++) {
-        (function (prefix) {
-          it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
-            detectNetwork(padString(prefix.toString(), length)).should.equal(creditName);
-          });
-        })(prefix);
-      }
-    })(length);
-  }
-}
