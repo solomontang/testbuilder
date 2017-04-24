@@ -196,6 +196,7 @@ describe('Maestro', function() {
 describe('China UnionPay', function() {
   var should = chai.should();
 
+
 });
 describe('Switch', function() {
 

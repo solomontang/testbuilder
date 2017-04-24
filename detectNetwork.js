@@ -25,6 +25,8 @@ var detectNetwork = function(cardNumber) {
     return 'Discover';
   } else if (isMaestro(cardNumber)) {
     return 'Maestro';
+  } else if (isChinaUnionPay(cardNumber)) {
+    return 'China Union Pay';
   }
 
   return 'Invalid Number';
@@ -35,33 +37,52 @@ var getPrefix = function(cardNumber, digits) {
 };
 
 var isDinersClub = function(cardNumber) {
-  return (cardNumber.length === 14 && (getPrefix(cardNumber, 2) === 38 || getPrefix(cardNumber, 2) === 39))
-    ? true : false;
+  return cardNumber.length === 14
+    && (getPrefix(cardNumber, 2) === 38 || getPrefix(cardNumber, 2) === 39)
+      ? true : false;
 }
 
 var isMasterCard = function(cardNumber) {
-  return (cardNumber.length === 16 && getPrefix(cardNumber, 2) >= 51 && getPrefix(cardNumber, 2) <= 55)
-    ? true : false;
+  return cardNumber.length === 16
+    && getPrefix(cardNumber, 2) >= 51 && getPrefix(cardNumber, 2) <= 55
+      ? true : false;
 }
 
 var isVisa = function(cardNumber) {
-  return (getPrefix(cardNumber, 1) === 4 && (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19))
-    ? true : false;
+  return getPrefix(cardNumber, 1) === 4
+    && (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19)
+      ? true : false;
 }
 
 var isAmericanExpress = function(cardNumber) {
-  return cardNumber.length === 15 && (getPrefix(cardNumber, 2) === 34 || getPrefix(cardNumber, 2) === 37)
-    ? true : false;
+  return cardNumber.length === 15
+    && (getPrefix(cardNumber, 2) === 34 || getPrefix(cardNumber, 2) === 37)
+      ? true : false;
 }
 
 var isDiscover = function(cardNumber) {
-  return (cardNumber.length === 16 || cardNumber.length === 19) && (getPrefix(cardNumber,4) === 6011 || (getPrefix(cardNumber,3) >= 644 && getPrefix(cardNumber,3) <= 649) || getPrefix(cardNumber,2) === 65)
-    ? true : false;
+  return (cardNumber.length === 16 || cardNumber.length === 19)
+    && getPrefix(cardNumber,4) === 6011
+      || (getPrefix(cardNumber,3) >= 644 && getPrefix(cardNumber,3) <= 649)
+      || getPrefix(cardNumber,2) === 65
+        ? true : false;
 }
 
 var isMaestro = function(cardNumber) {
-  return cardNumber.length >= 12 && cardNumber.length <= 19 && (getPrefix(cardNumber, 4) === 5018 || getPrefix(cardNumber, 4) === 5020 || getPrefix(cardNumber, 4) === 5038 || getPrefix(cardNumber, 4) === 6304)
-    ? true : false;
+  return cardNumber.length >= 12 && cardNumber.length <= 19
+    && (getPrefix(cardNumber, 4) === 5018
+      || getPrefix(cardNumber, 4) === 5020
+      || getPrefix(cardNumber, 4) === 5038
+      || getPrefix(cardNumber, 4) === 6304)
+        ? true : false;
+}
+
+var isChinaUnionPay = function(cardNumber) {
+  return (cardNumber.length >= 16 && cardNumber.length <= 19)
+    && (getPrefix(cardNumber, 6) >= 622126 && getPrefix(cardNumber, 6) <= 622925)
+      || (getPrefix(cardNumber, 3) >= 624 && getPrefix(cardNumber, 3) <= 626)
+      || (getPrefix(cardNumber, 4) >= 6282 && getPrefix(cardNumber, 4) <= 6288)
+        ? true : false;
 }
 
 function assertEquals(actual, expected, testName) {
