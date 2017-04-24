@@ -8,6 +8,15 @@
 // different value.
 var FILL_ME_IN = 'Fill this value in';
 
+function padString(string, totalLength) {
+  var initLength = string.length;
+  var padded = string;
+  for (var i = initLength; i < totalLength; i++) {
+    padded = padded.concat((0).toString());
+  }
+  return padded;
+}
+
 describe('Introduction to Mocha Tests - READ ME FIRST', function() {
   // A Mocha test is just a function!
   // If the function throws an error when run, it fails.
@@ -161,27 +170,10 @@ describe('Discover', function() {
   });
 
 });
-function padString (string, totalLength) {
-  var initLength = string.length;
-  var padded = string;
-  for (var i = initLength; i < totalLength; i++) {
-    padded = padded.concat((0).toString());
-  }
-  return padded;
-}
 
 describe('Maestro', function() {
   // Write full test coverage for the Maestro card
   var should = chai.should();
-
-  var padString = function(string, totalLength) {
-    var initLength = string.length;
-    var padded = string;
-    for (var i = initLength; i < totalLength; i++) {
-      padded = padded.concat((0).toString());
-    }
-    return padded;
-  }
 
   for (var length = 12; length <= 19; length++) {
     (function(length) {
@@ -201,5 +193,10 @@ describe('Maestro', function() {
   }
 });
 
-describe('should support China UnionPay')
-describe('should support Switch')
+describe('China UnionPay', function() {
+  var should = chai.should();
+
+});
+describe('Switch', function() {
+
+});
