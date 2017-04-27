@@ -8,16 +8,34 @@
 // different value.
 var FILL_ME_IN = 'Fill this value in';
 
-function padString(string, totalLength) {
+var padString = function(string, totalLength) {
   return string = "number" == typeof string ? string.toString() : string, string + new Array(totalLength + 1 - string.length).join('0');
-  /*
-  var initLength = string.length;
-  var padded = string;
-  for (var i = initLength; i < totalLength; i++) {
-    padded = padded.concat((0).toString());
+}
+
+var checkDetectNetwork = function(prefixArr, digitsArr, creditName) {
+  digitsArr.forEach( length => {
+    (function(length) {
+      prefixArr.forEach( prefix => {
+        (function(prefix){
+          it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
+            detectNetwork(padString(prefix.toString(), length)).should.equal(creditName);
+          });
+        })(prefix);
+      });
+    })(length);
+  });
+}
+
+var range = function (start, stop, step = 1) {
+  if (stop === undefined) {
+    stop = start;
+    start = 0;
   }
-  return padded;
-  */
+  let arr = [];
+  for (let i = start; i <= stop; i+=step) {
+    arr.push(i);
+  }
+  return arr;
 }
 
 describe('Introduction to Mocha Tests - READ ME FIRST', function() {
@@ -177,71 +195,21 @@ describe('Discover', function() {
 describe('Maestro', function() {
   // Write full test coverage for the Maestro card
   var should = chai.should();
-
-  for (var length = 12; length <= 19; length++) {
-    (function(length) {
-      it('has a prefix of 5018 and a length of ' + length, function() {
-        detectNetwork(padString('5018', length)).should.equal('Maestro');
-      });
-      it('has a prefix of 5020 and a length of ' + length, function() {
-        detectNetwork(padString('5020', length)).should.equal('Maestro');
-      });
-      it('has a prefix of 5038 and a length of ' + length, function() {
-        detectNetwork(padString('5038', length)).should.equal('Maestro');
-      });
-      it('has a prefix of 6304 and a length of ' + length, function() {
-        detectNetwork(padString('6304', length)).should.equal('Maestro');
-      });
-    })(length);
-  }
+  const prefixArr = [5018, 5020, 5038, 6304];
+  const digitsArr = range(12, 19);
+  checkDetectNetwork(prefixArr, digitsArr, 'Maestro');
 });
-
-var checkDetectNetwork = function(prefixMin, prefixMax, digitsMin, digitsMax, creditName) {
-  for (var length = digitsMin; length <= digitsMax; length++) {
-    (function(length) {
-      for (var prefix = prefixMin; prefix <= prefixMax; prefix++) {
-        (function (prefix) {
-          it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
-            detectNetwork(padString(prefix.toString(), length)).should.equal(creditName);
-          });
-        })(prefix);
-      }
-    })(length);
-  }
-}
 
 describe('China UnionPay', function() {
   var should = chai.should();
-  checkDetectNetwork(622126, 622925, 16, 19, 'China UnionPay');
-  checkDetectNetwork(624,626,16,19,'China UnionPay');
-  checkDetectNetwork(6282, 6288, 16, 19, 'China UnionPay');
-
+  const prefixArr = [...range(622126, 622925), ...range(624, 626), ...range(6282, 6288)];
+  const digitsArr = range(16,19);
+  checkDetectNetwork(prefixArr, digitsArr, 'China UnionPay');
 });
+
 describe('Switch', function() {
   var should = chai.should();
-
-  checkDetectNetwork(4903,4903,16,16,'Switch');
-  checkDetectNetwork(4903,4903,18,19,'Switch');
-
-  checkDetectNetwork(4905,4905,16,16,'Switch');
-  checkDetectNetwork(4905,4905,18,19,'Switch');
-
-  checkDetectNetwork(4911,4911,16,16,'Switch');
-  checkDetectNetwork(4911,4911,18,19,'Switch');
-
-  checkDetectNetwork(4936,4936,16,16,'Switch');
-  checkDetectNetwork(4936,4936,18,19,'Switch');
-
-  checkDetectNetwork(564182,564182,16,16,'Switch');
-  checkDetectNetwork(564182,564182,18,19,'Switch');
-
-  checkDetectNetwork(633110,633110,16,16,'Switch');
-  checkDetectNetwork(633110,633110,18,19,'Switch');
-
-  checkDetectNetwork(6333,6333,16,16,'Switch');
-  checkDetectNetwork(6333,6333,18,19,'Switch');
-
-  checkDetectNetwork(6759, 6759,16,16,'Switch');
-  checkDetectNetwork(6759,6759,18,19,'Switch');
-
+  const prefixArr = [4903, 4905, 4911, 4936, 564182, 633110, 6333, 6759];
+  const digitsArr = [16,18,19];
+  checkDetectNetwork(prefixArr, digitsArr, 'Switch');
 });
