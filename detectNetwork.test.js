@@ -26,18 +26,6 @@ var checkDetectNetwork = function(prefixArr, digitsArr, creditName) {
   });
 }
 
-var range = function (start, stop, step = 1) {
-  if (stop === undefined) {
-    stop = start;
-    start = 0;
-  }
-  let arr = [];
-  for (let i = start; i <= stop; i+=step) {
-    arr.push(i);
-  }
-  return arr;
-}
-
 describe('Introduction to Mocha Tests - READ ME FIRST', function() {
   // A Mocha test is just a function!
   // If the function throws an error when run, it fails.
@@ -109,7 +97,6 @@ describe('Visa', function() {
   // Search the documentation to figure out how to access it.
   //   http://chaijs.com/
   var assert = chai.assert;
-
 
   it('has a prefix of 4 and a length of 13', function() {
     assert(detectNetwork('4123456789012') === 'Visa');

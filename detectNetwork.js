@@ -38,21 +38,33 @@ var getPrefix = function(cardNumber, digits) {
   return Number(cardNumber.split('').slice(0,digits).join(''));
 };
 
+var range = function (start, stop, step = 1) {
+  if (stop === undefined) {
+    stop = start;
+    start = 0;
+  }
+  let arr = [];
+  for (let i = start; i <= stop; i+=step) {
+    arr.push(i);
+  }
+  return arr;
+}
+
 var isDinersClub = function(cardNumber) {
   return cardNumber.length === 14
-    && (getPrefix(cardNumber, 2) === 38 || getPrefix(cardNumber, 2) === 39)
+    && [38,39].includes(getPrefix(cardNumber, 2))
       ? true : false;
 }
 
 var isMasterCard = function(cardNumber) {
   return cardNumber.length === 16
-    && getPrefix(cardNumber, 2) >= 51 && getPrefix(cardNumber, 2) <= 55
+    && range(51,55).includes(getPrefix(cardNumber, 2))
       ? true : false;
 }
 
 var isVisa = function(cardNumber) {
-  return getPrefix(cardNumber, 1) === 4
-    && (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19)
+  return (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19)
+    && getPrefix(cardNumber, 1) === 4
       ? true : false;
 }
 
@@ -63,56 +75,33 @@ var isAmericanExpress = function(cardNumber) {
 }
 
 var isDiscover = function(cardNumber) {
-  return (cardNumber.length === 16 || cardNumber.length === 19)
-    && getPrefix(cardNumber,4) === 6011
-      || (getPrefix(cardNumber,3) >= 644 && getPrefix(cardNumber,3) <= 649)
-      || getPrefix(cardNumber,2) === 65
-        ? true : false;
+  const prefixArr = [6011, ...range(644,649), 65];
+  const digitsArr = [16, 19];
+  return (digitsArr.includes(cardNumber.length))
+    && (prefixArr.includes(getPrefix(cardNumber,2)) || prefixArr.includes(getPrefix(cardNumber, 3)) || prefixArr.includes(getPrefix(cardNumber, 4)))
+      ? true : false;
 }
 
 var isMaestro = function(cardNumber) {
-  return cardNumber.length >= 12 && cardNumber.length <= 19
-    && (getPrefix(cardNumber, 4) === 5018
-      || getPrefix(cardNumber, 4) === 5020
-      || getPrefix(cardNumber, 4) === 5038
-      || getPrefix(cardNumber, 4) === 6304)
-        ? true : false;
+  const prefixArr = [5018, 5020, 5038, 6304];
+  const digitsArr = range(12, 19);
+  return digitsArr.includes(cardNumber.length)
+    && prefixArr.includes(getPrefix(cardNumber, 4))
+      ? true : false;
 }
 
 var isChinaUnionPay = function(cardNumber) {
-  return (cardNumber.length >= 16 && cardNumber.length <= 19)
-    && (getPrefix(cardNumber, 6) >= 622126 && getPrefix(cardNumber, 6) <= 622925)
-      || (getPrefix(cardNumber, 3) >= 624 && getPrefix(cardNumber, 3) <= 626)
-      || (getPrefix(cardNumber, 4) >= 6282 && getPrefix(cardNumber, 4) <= 6288)
-        ? true : false;
+  const prefixArr = [...range(622126, 622925), ...range(624, 626), ...range(6282, 6288)]
+  const digitsArr = range(16,19);
+  return (digitsArr.includes(cardNumber.length))
+    && (prefixArr.includes(getPrefix(cardNumber, 3)) || prefixArr.includes(getPrefix(cardNumber, 4)) || prefixArr.includes(getPrefix(cardNumber, 6)))
+      ? true : false;
 }
 
 var isSwitch = function (cardNumber) {
-  return (cardNumber.length === 16 || cardNumber.length === 18 || cardNumber.length === 19)
-    && (getPrefix(cardNumber, 4) === 4903
-      || getPrefix(cardNumber, 4) === 4905
-      || getPrefix(cardNumber, 4) === 4911
-      || getPrefix(cardNumber, 4) === 4936
-      || getPrefix(cardNumber, 6) === 564182
-      || getPrefix(cardNumber, 6) === 633110
-      || getPrefix(cardNumber, 4) === 6333
-      || getPrefix(cardNumber, 4) === 6759)
-        ? true : false;
+  const prefixArr = [4903, 4905, 4911, 4936, 564182, 633110, 6333, 6759];
+  const digitsArr = [16, 18, 19]
+  return (digitsArr.includes(cardNumber.length))
+    && (prefixArr.includes(getPrefix(cardNumber, 4)) || prefixArr.includes(getPrefix(cardNumber, 6)))
+      ? true : false;
 }
-
-function assertEquals(actual, expected, testName) {
-  if(actual === expected) {
-    console.log('PASSED [' + testName + ']');
-  } else {
-    console.log('FAILED [' + testName + ']: Expected ' + expected + ', but got ' + actual);
-  }
-}
-
-function testDetectNetwork() {
-  assertEquals(getPrefix('12345678901234',2), 12, 'should return cc prefix');
-  assertEquals(detectNetwork('38345678901234'),'Diner\'s Club', 'should detect Diner\'s Club');
-  assertEquals(detectNetwork('39345678901234'),'Diner\'s Club', 'should detect Diner\'s Club');
-  assertEquals(detectNetwork('343456789012345'),'American Express', 'should detect American Express');
-  assertEquals(detectNetwork('373456789012345'),'American Express', 'should detect American Express');
-}
-//testDetectNetwork();
